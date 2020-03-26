@@ -4,6 +4,15 @@ I needed this for testing out some cross-platform Rust code and didn't want to r
 
 Outputs are the public IP address and the decoded password for the `Administrator` account.
 
+## Usage
+
+```
+$ ./run terraform [plan|apply|destroy]
+```
+
+By default the script is using `eu-central-1`, which can be overriden by setting the `AWS_DEFAULT_REGION` variable.
+
+
 ## Getting all available AWS AMI IDs for Windows
 
 ```
