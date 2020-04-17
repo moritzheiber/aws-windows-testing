@@ -8,7 +8,16 @@ resource "aws_security_group_rule" "rdp_ingress" {
   from_port         = 3389
   to_port           = 3389
   protocol          = "tcp"
-  cidr_blocks       = ["${chomp(data.http.public_ip.body)}/32"]
+  cidr_blocks       = concat(["${chomp(data.http.public_ip.body)}/32"], var.additional_ips)
+  security_group_id = aws_security_group.windows.id
+}
+
+resource "aws_security_group_rule" "https_ingress" {
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks       = concat(["${chomp(data.http.public_ip.body)}/32"], var.additional_ips)
   security_group_id = aws_security_group.windows.id
 }
 
@@ -28,6 +37,10 @@ resource "aws_instance" "windows" {
   get_password_data           = true
   associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.windows.id]
+
+  root_block_device {
+    volume_size = var.storage_size
+  }
 }
 
 resource "tls_private_key" "private_key" {

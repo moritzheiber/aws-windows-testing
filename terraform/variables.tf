@@ -12,7 +12,17 @@ provider "tls" {
 
 variable "size" {
   type    = string
-  default = "t3.nano"
+  default = "t3a.large"
+}
+
+variable "storage_size" {
+  type    = string
+  default = "50"
+}
+
+variable "additional_ips" {
+  type    = list(string)
+  default = []
 }
 
 data "http" "public_ip" {
@@ -20,15 +30,18 @@ data "http" "public_ip" {
 }
 
 # Available versions are:
-# Windows_Server-2019-English-Core-Base*
-# Windows_Server-2019-English-Core-ContainersLatest*
-# Windows_Server-2019-English-Full-Base*
+# Windows Server 2016
+# - Windows_Server-2016-English-Full-Base*
+# Windows Server 2019
+# - Windows_Server-2019-English-Core-Base*
+# - Windows_Server-2019-English-Core-ContainersLatest*
+# - Windows_Server-2019-English-Full-Base*
 
 data "aws_ami" "windows" {
   most_recent = true
   owners      = ["amazon"]
   filter {
     name   = "name"
-    values = ["Windows_Server-2019-English-Core-ContainersLatest*"]
+    values = ["Windows_Server-2016-English-Full-Base*"]
   }
 }

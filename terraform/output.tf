@@ -8,3 +8,8 @@ output "public_ip" {
   description = "The public IP to connect to"
   value       = aws_instance.windows.public_ip
 }
+
+output "dns" {
+  description = "The DNS to reach the instance under"
+  value       = aws_instance.windows.public_dns
+}
