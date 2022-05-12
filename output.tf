@@ -1,7 +1,7 @@
 output "windows_password" {
   description = "Returns the decrypted AWS generated windows password"
   value       = rsadecrypt(aws_instance.windows.password_data, tls_private_key.private_key.private_key_pem)
-
+  sensitive   = true
 }
 
 output "public_ip" {
